@@ -1,35 +1,30 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import PostList from './components/PostList';
+import CreatePost from './components/CreatePost';
 
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-}
-
-export default function Post() {
-  const [post, setPost] = useState<Post | null>(null);
-  const params = useParams();
-  const id = params.id;
+export default function Home() {
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/posts/${id}`)
+    // In a real app, you'd implement pagination here
+    fetch('/api/posts')
       .then(response => response.json())
-      .then(data => setPost(data));
-  }, [id]);
+      .then(data => setPosts(data));
+  }, []);
 
-  if (!post) return <div className="text-center py-10">Loading...</div>;
+  const handleNewPost = (newPost) => {
+    setPosts([newPost, ...posts]);
+  };
 
   return (
-    <article className="container mx-auto px-4 py-8 max-w-2xl">
-      <Link href="/" className="text-blue-500 hover:underline mb-4 inline-block">&larr; Back to all posts</Link>
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">{post.title}</h1>
-      <div className="prose prose-lg">
-        <p className="text-gray-600">{post.content}</p>
+    <main className="container mx-auto px-4 py-8 bg-gray-100 min-h-screen">
+      <h1 className="text-4xl font-bold text-blue-800 mb-8 text-center">My Social Blog</h1>
+      <div className="max-w-2xl mx-auto">
+        <CreatePost onNewPost={handleNewPost} />
+        <PostList posts={posts} />
       </div>
-    </article>
+    </main>
   );
 }

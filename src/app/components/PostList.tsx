@@ -1,9 +1,12 @@
 import React from 'react';
-import Link from 'next/link';
+import PostCard from './PostCard';
 
 interface Post {
   id: number;
-  title: string;
+  author: string;
+  content: string;
+  likes: number;
+  comments: Comment[];
 }
 
 interface PostListProps {
@@ -12,18 +15,11 @@ interface PostListProps {
 
 const PostList: React.FC<PostListProps> = ({ posts }) => {
   return (
-    <ul className="space-y-4">
+    <div className="space-y-6">
       {posts.map((post) => (
-        <li key={post.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-          <Link href={`/post/${post.id}`}>
-            <div className="p-6 hover:bg-gray-50 transition duration-150 ease-in-out">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">{post.title}</h2>
-              <p className="text-gray-600">Click to read more</p>
-            </div>
-          </Link>
-        </li>
+        <PostCard key={post.id} post={post} />
       ))}
-    </ul>
+    </div>
   );
 };
 
