@@ -1,30 +1,32 @@
-'use client';
+import { useState, useEffect } from 'react';
+import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
+import CommentList from '../../components/CommentList';
 
-import { useEffect, useState } from 'react';
-import PostList from './components/PostList';
-import CreatePost from './components/CreatePost';
+interface PageProps {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
-export default function Home() {
-  const [posts, setPosts] = useState([]);
+export default function PostPage({ params, searchParams }: PageProps) {
+  const [comments, setComments] = useState(null);
 
   useEffect(() => {
-    // In a real app, you'd implement pagination here
-    fetch('/api/posts')
-      .then(response => response.json())
-      .then(data => setPosts(data));
-  }, []);
+    // Fetch comments for the post
+    const fetchComments = async () => {
+      
+      const response = await fetch(`/api/posts/${params.id}/comments`);
+      const data = await response.json();
+      setComments(data);
+    };
 
-  const handleNewPost = (newPost) => {
-    setPosts([newPost, ...posts]);
-  };
+    fetchComments();
+  }, [params.id]);
 
   return (
-    <main className="container mx-auto px-4 py-8 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-bold text-blue-800 mb-8 text-center">My Social Blog</h1>
-      <div className="max-w-2xl mx-auto">
-        <CreatePost onNewPost={handleNewPost} />
-        <PostList posts={posts} />
-      </div>
-    </main>
+    <div>
+      <h1>Post {params.id}</h1>
+      {/* Other post content */}
+      <CommentList comments={comments} />
+    </div>
   );
 }

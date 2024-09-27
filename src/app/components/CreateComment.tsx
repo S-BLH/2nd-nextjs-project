@@ -9,7 +9,7 @@ interface CreateCommentProps {
 const CreateComment: React.FC<CreateCommentProps> = ({ onNewComment }) => {
   const [content, setContent] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { // Specify the event type
     e.preventDefault();
     if (content.trim()) {
       onNewComment({ author: 'Current User', content });

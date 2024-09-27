@@ -1,16 +1,22 @@
 import React from 'react';
 import PostCard from './PostCard';
 
-interface Post {
+interface MyPost {
   id: number;
   author: string;
   content: string;
   likes: number;
-  comments: Comment[];
+  comments: MyComment[];
+}
+
+interface MyComment {
+  id: number;
+  author: string;
+  content: string;
 }
 
 interface PostListProps {
-  posts: Post[];
+  posts: MyPost[];
 }
 
 const PostList: React.FC<PostListProps> = ({ posts }) => {

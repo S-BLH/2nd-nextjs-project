@@ -34,8 +34,8 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     alert('Sharing post: ' + post.id);
   };
 
-  const handleNewComment = (newComment) => {
-    const commentWithId = { ...newComment, id: Date.now() };
+  const handleNewComment = (newComment: Omit<Comment, 'id'>) => {
+    const commentWithId: Comment = { ...newComment, id: Date.now() };
     setComments([...comments, commentWithId]);
   };
 
