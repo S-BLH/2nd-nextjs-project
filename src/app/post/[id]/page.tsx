@@ -1,15 +1,14 @@
-"use client"; // Add this line to indicate that this is a Client Component
+"use client"; // Indicates that this is a Client Component
 
 import { useState, useEffect } from 'react';
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import CommentList from '../../components/CommentList';
 
 interface PageProps {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  // searchParams: { [key: string]: string | string[] | undefined }; // Comment out if not used
 }
 
-export default function PostPage({ params, searchParams }: PageProps) {
+export default function PostPage({ params }: PageProps) {
   const [comments, setComments] = useState(null);
 
   useEffect(() => {
